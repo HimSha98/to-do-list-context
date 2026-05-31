@@ -3,22 +3,36 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
+import { TodoProvider } from './contexts';
 
 function App() {
 
-  return (
-    <>
-      <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          
-          <div class="bg-pink-200 p-4">Item 1</div>
-          <div class="bg-pink-200 p-4">Item 2</div>
-          <div class="bg-pink-200 p-4">Item 3</div>
+  const [todos, setTodos] = useState([]);
 
+  const addTodo = (todo) => {
+    setTodos((prev) => [{id: Date.now(), ...todo}, ...prev]);
+  }
+
+  const updateTodo = (id, todo) => {
+    console.log(id, todo);
+    setTodos((prev) => prev.map((prevTodo) => prevTodo?.id === id ? todo : prevTodo));
+  }
+
+  return (
+    <TodoProvider value={{todos, addTodo, updateTodo, deleteTodo, toggleCompleted}}>
+      <div className="bg-[#172842] min-h-screen py-8">
+        <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 text-white">
+            <h1 className="text-2xl font-bold text-center mb-8 mt-2">Manage Your Todos</h1>
+            <div className="mb-4">
+                {/* Todo form goes here */} 
+            </div>
+            <div className="flex flex-wrap gap-y-3">
+                {/*Loop and Add TodoItem here */}
+            </div>
         </div>
       </div>
-    </>
-  )
+    </TodoProvider >
+  ) 
 }
 
 export default App;
