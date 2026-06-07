@@ -16,6 +16,7 @@ function App() {
   }
 
   const updateTodo = (id, todo) => {
+    console.log(id, todo, "is updated or not")
     setTodos((prev) => prev.map((prevTodo) => prevTodo?.id === id ? todo : prevTodo));
   }
 
@@ -23,7 +24,7 @@ function App() {
     setTodos((prev) => prev.filter((prevTodo) => prevTodo?.id !== id));
   }
 
-  const toggleCompleted = (id) => {
+  const toggleComplete = (id) => {
     setTodos((prev) => prev.map((prevTodo) => prevTodo?.id === id ?
       {...prevTodo, completed: !prevTodo?.completed} : prevTodo));
   }
@@ -41,7 +42,7 @@ function App() {
   }, [todos])
 
   return (
-    <TodoProvider value={{todos, addTodo, updateTodo, deleteTodo, toggleCompleted}}>
+    <TodoProvider value={{todos, addTodo, updateTodo, deleteTodo, toggleComplete}}>
       <div className="bg-[#172842] min-h-screen py-8">
         <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 text-white">
             <h1 className="text-2xl font-bold text-center mb-8 mt-2">Manage Your Todos</h1>
@@ -51,7 +52,11 @@ function App() {
             </div>
             <div className="flex flex-wrap gap-y-3">
                 {/*Loop and Add TodoItem here */}
-                <TodoItem />
+                {todos.map((todoItem) => (
+                  <div key={todoItem?.id} className='w-full'>
+                    <TodoItem todo={todoItem}/>
+                  </div>
+                ))}
             </div>
         </div>
       </div>
